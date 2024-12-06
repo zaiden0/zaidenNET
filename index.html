@@ -1,209 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Zaiden</title>
-    <style>
-        /* Basic reset */
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            height: 100vh;
-            background-color: black; /* Background black */
-            font-family: Arial, sans-serif;
-            color: white; /* Text white */
-            text-align: center;
-            overflow: hidden;
-        }
-
-        /* Main container styling */
-        .container {
-            padding: 20px;
-            width: 90%;
-            max-width: 600px;
-            opacity: 0;
-            animation: fadeIn 1s forwards; /* Fade-in animation */
-        }
-
-        /* Social links - top right */
-        .socials {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            display: flex;
-            gap: 15px;
-            opacity: 0;
-            animation: fadeIn 1s 0.5s forwards; /* Fade-in animation with delay */
-        }
-
-        .socials a {
-            text-decoration: none;
-            color: white; /* White text */
-            font-size: 14px;
-            font-weight: bold;
-            transition: transform 0.3s ease;
-        }
-
-        .socials a:hover {
-            transform: scale(1.1);
-        }
-
-        /* Video styling */
-        iframe {
-            margin-top: 350px; /* Adjust space between subscriber count and video */
-            width: 100%;
-            height: 315px;
-            border: none;
-            box-shadow: 0 0 20px white; /* Glowing border */
-            transition: box-shadow 0.3s ease;
-        }
-
-        iframe:hover {
-            box-shadow: 0 0 40px white; /* Stronger glowing effect */
-        }
-
-        /* Header (Zaiden + clickable link) */
-        #header {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            font-size: 32px;
-            font-weight: bold;
-            color: black; /* Text color black */
-            background-color: white; /* Background color white */
-            padding: 10px 20px;
-            border-radius: 30px; /* Rounded corners to make it button-like */
-            text-decoration: none; /* Remove underline */
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        #header:hover {
-            background-color: #f0f0f0; /* Slight hover effect */
-            color: black;
-        }
-
-        /* Subscriber Count Styling (At the top of the page) */
-        #subscribers {
-            position: absolute;
-            top: px; /* Adjusted for space above the video */
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 48px;
-            font-weight: bold;
-            color: white; /* White text */
-            opacity: 0;
-            animation: fadeIn 1s 0.7s forwards, countUp 3s 0.7s forwards; /* Count animation */
-        }
-
-        /* Animation keyframes */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes countUp {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        /* Mobile responsiveness */
-        @media (max-width: 600px) {
-            iframe {
-                height: 200px;
-            }
-
-            #subscribers {
-                font-size: 30px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>zaiden.net</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: black;
+      color: white;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+    .timer {
+      font-size: 6rem;
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      font-weight: bold;
+    }
+    .unit {
+      font-size: 3rem;
+    }
+    #header {
+      position: absolute;
+      top: 20px;
+      font-size: 2rem;
+      text-align: center;
+    }
+    /* Button Styling */
+    #zaiden-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      padding: 10px 20px;
+      background-color: #444;
+      color: white;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      text-align: center;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+      font-weight: bold;
+    }
+    #zaiden-btn:hover {
+      background-color: #666;
+    }
+    /* YouTube Video Styling */
+    #video-container {
+      display: none; /* Hide the video container initially */
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      height: 80%;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
 </head>
 <body>
+  <!-- Zaiden Button -->
+  <a href="https://www.youtube.com/@zaiden.mp4" target="_blank">
+    <button id="zaiden-btn">Zaiden</button>
+  </a>
 
-    <!-- Header Section (Zaiden + clickable link) -->
-    <a href="https://www.youtube.com/channel/UCavrgGfoXVx5oXJqjPk-vHQ" target="_blank" id="header">Zaiden</a>
-    
-    <!-- Subscriber count -->
-    <div id="subscribers">0</div>
+  <div id="header"></div>
+  <div class="timer">
+    <div id="days" class="unit">0</div>
+    <div id="hours" class="unit">00</div>
+    <div id="mins" class="unit">00</div>
+    <div id="secs" class="unit">00</div>
+  </div>
 
-    <!-- Main Content -->
-    <div class="container">
-        <!-- Social Media Links -->
-        <div class="socials">
-            <a href="https://www.youtube.com/channel/UCavrgGfoXVx5oXJqjPk-vHQ?&sub_confirmation=1" target="_blank">youtube</a>
-            <a href="mailto:z8n.me@proton.me" target="_blank">contact me</a>
-            <a href="https://www.twitch.tv/z8nalt" target="_blank">twitch</a>
-            <a href="/" target="_blank">more</a>
-        </div>
+  <!-- YouTube Video Container -->
+  <div id="video-container">
+    <iframe id="video-iframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
 
-        <!-- YouTube Embed -->
-        <div id="latest-video">
-            <p>Loading...</p>
-        </div>
-    </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    function timeLeft(endtime) {
+      var t = Date.parse(endtime) - Date.parse(new Date());
+      var seconds = Math.floor((t / 1000) % 60);
+      var minutes = Math.floor((t / 1000 / 60) % 60);
+      var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+      var days = Math.floor(t / (1000 * 60 * 60 * 24));
+      return {
+        'total': t,
+        'days': days,
+        'hours': hours,
+        'minutes': minutes,
+        'seconds': seconds
+      };
+    };
 
-    <script>
-        // Fetch the subscriber count and YouTube video
-        async function fetchData() {
-            const apiKey = 'AIzaSyCXQhmlFnvX97M4n4qttW7fsa7m6woDhPk'; // Your API key
-            const channelId = 'UCavrgGfoXVx5oXJqjPk-vHQ'; // Your channel ID
+    // Function to get the latest video from Zaiden's YouTube channel (not used now)
+    function getLatestVideo() {
+      var apiKey = 'YOUR_YOUTUBE_API_KEY'; // Replace with your actual YouTube API key
+      var channelId = 'UCaTxb5emxwzQ1wSPwtxq3gA'; // Zaiden's channel ID (update if necessary)
 
-            // Fetch the channel data
-            const channelResponse = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${channelId}&key=${apiKey}`);
-            const channelData = await channelResponse.json();
-            const subscriberCount = channelData.items[0].statistics.subscriberCount;
+      $.get(`https://www.googleapis.com/youtube/v3/search`, {
+        part: 'snippet',
+        channelId: channelId,
+        maxResults: 1,
+        order: 'date',
+        key: apiKey
+      }, function(response) {
+        var latestVideo = response.items[0];
+        var videoId = latestVideo.id.videoId;
+        var videoUrl = `https://www.youtube.com/embed/${videoId}`;
+        
+        // Show the video (this part is removed now)
+        $('#video-container').show();
+        $('#video-iframe').attr('src', videoUrl);
+      });
+    }
 
-            // Update the subscriber count on the page
-            const subCountElement = document.getElementById('subscribers');
-            subCountElement.textContent = subscriberCount;
+    $(document).ready(function () {
+      var today = new Date();
+      var deadline = 'January 1, 2025 00:00:00'; // Countdown set to Dec 6, 2024 at 2:07 PM
 
-            // Animate the subscriber count
-            animateSubscriberCount(subscriberCount);
+      var setClock = function (newyear) {
+        var timeinterval = setInterval(function () {
+          var t = timeLeft(newyear);
+          $('#days').text(t.days);
+          $('#hours').text(('0' + t.hours).slice(-2));
+          $('#mins').text(('0' + t.minutes).slice(-2));
+          $('#secs').text(('0' + t.seconds).slice(-2));
 
-            // Fetch the latest video from the channel
-            const videoResponse = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&order=date&maxResults=1&key=${apiKey}`);
-            const videoData = await videoResponse.json();
-            const latestVideo = videoData.items[0];
+          // When the countdown hits zero, redirect to YouTube channel
+          if (t.total <= 0) {
+            clearInterval(timeinterval);
+            
+            // Redirect to Zaiden's YouTube channel
+            window.location.href = 'https://www.youtube.com/@zaiden.mp4';
+          }
+        }, 1000);
+      };
 
-            // Get the video ID and construct the embed URL
-            const videoId = latestVideo.id.videoId;
-            const embedUrl = `https://www.youtube.com/embed/${videoId}`;
-
-            // Set the iframe embed code with the latest video
-            const videoContainer = document.getElementById('latest-video');
-            videoContainer.innerHTML = `<iframe src="${embedUrl}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-        }
-
-        // Function to animate the subscriber count
-        function animateSubscriberCount(target) {
-            const subCountElement = document.getElementById('subscribers');
-            let currentCount = 0;
-            const interval = setInterval(() => {
-                if (currentCount < target) {
-                    currentCount++;
-                    subCountElement.textContent = currentCount;
-                } else {
-                    clearInterval(interval);
-                }
-            }, 10); // Adjust speed by changing the interval
-        }
-
-        // Call the function to fetch data on page load
-        window.onload = fetchData;
-    </script>
-
+      setClock(deadline);
+    });
+  </script>
 </body>
 </html>
